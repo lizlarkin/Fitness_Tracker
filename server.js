@@ -23,7 +23,16 @@ db.on("error", error => {
   });
 
 // Routes
-
+// Get Workout Stats
+app.get('/stats', (req, res) => {
+  db.workouts.find({}, (err, data) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.json(data);
+    }
+  });
+});
 
 // Start Server
 app.listen(3030, () => {

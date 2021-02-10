@@ -1,11 +1,11 @@
 // NPM Libraries
 const express = require("express");
-const mongojs = require("mongojs");
-const mongoose = require("mongoose");
-const morgan = require('morgan');
+// const mongojs = require("mongojs");
+const mongoose = require('mongoose');
+// const morgan = require('morgan');
 
 //Establish Port
-const PORT = process.env.PORT || 3030;
+const PORT = process.env.PORT || 3000;
 
 // Set up Express
 const app = express();
@@ -13,28 +13,34 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
+// Morgan
+// app.use(logger('dev'));
+
+// Mongoose Connection
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { 
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+}).then(() => console.log('connected'));
+
+
+
 // Set up Mongo
-const databaseUrl = 'fitness';
-const collections = ['workouts'];
-const db = mongojs(databaseUrl, collections);
+// const databaseUrl = 'workout';
+// const collections = ['workouts'];
+// const db = mongojs(databaseUrl, collections);
 
-db.on("error", error => {
-    console.log("Database Error:", error);
-  });
+// db.on("error", error => {
+//     console.log("Database Error:", error);
+//   });
 
-// Routes
-// Get Workout Stats
-app.get('/stats', (req, res) => {
-  db.workouts.find({}, (err, data) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.json(data);
-    }
-  });
-});
+// Connect Server and Routes
+app.use(require("./routes/api-routes.js"));
+app.use(require("./routes/html-routes.js"));
+// const routes = require('./routes')
+// app.use(routes);
 
 // Start Server
-app.listen(3030, () => {
+app.listen(3000, () => {
     console.log(`Fitness Tracker Link: http://localhost:${PORT}`);
   });

@@ -8,36 +8,37 @@ router.get('/api/workouts', (req, res) => {
   Workout.find({})
     // sort ascending to get most recent workout
     .sort({ day: 1 })  
-    .then(dbTransaction => {
-      res.json(dbTransaction);
+    .then(dbWorkout => {
+      res.json(dbWorkout);
     })
     .catch(err => {
       res.status(400).json(err);
     });
 });
 
-
-router.get("/api/transaction", (req, res) => {
-  Transaction.find({})
-    .sort({ date: -1 })
-    .then(dbTransaction => {
-      res.json(dbTransaction);
-    })
-    .catch(err => {
-      res.status(400).json(err);
-    });
-});
-
-// Post New Workout
+// Post New Workout (Create Workout)
 router.post('/api/workouts', (req, res) => {
-    Workout.insertOne(req.body)
-      .then(dbWorkout => {               
-        res.json(dbWorkout);
-      })
-      .catch(err => {
-        res.status(400).json(err);
-      });
-  });
+  Workout.create(req.body)
+    .then(dbWorkout => {
+      res.json(dbWorkout);
+      console.log(dbWorkout)
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+// app.post("/api/submit", (req, res) => {
+//   console.log(req.body);
+
+//   db.notes.insert(req.body, (error, data) => {
+//     if (error) {
+//       res.send(error);
+//     } else {
+//       res.send(data);
+//     }
+//   });
+// });
 
 
 // Update Workout 

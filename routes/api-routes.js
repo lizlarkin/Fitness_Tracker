@@ -5,15 +5,17 @@ const Workout = require('../models/workout.js');
 // const db = require('../models/');
 
 // Get Total Duration and Combined Weight of Workouts 
-router.get('/api/workouts/range', (req, res) => {        
+router.get('/api/workouts/range', (req, res) => { 
+  
   Workout.aggregate([
     {
       $addFields: {
         totalDuration: {$sum: '$exercises.duration'},
         totalWeight: {$sum: '$exercises.weight'},
-      }
-    }
-  ])
+      },
+    },{ $limit : 7 }
+  ]).sort({day: -1})
+
     .then(dbWorkout => {
       res.json(dbWorkout);
       // console.log(dbWorkout)

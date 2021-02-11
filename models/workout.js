@@ -10,7 +10,7 @@ const ExercisesSchema = new Schema({
       {
         type: {
             type: String,
-            required:  'Exercise type is required'
+            required: 'Exercise type is required'
         },
         name: {
             type: String,
@@ -22,15 +22,12 @@ const ExercisesSchema = new Schema({
         },
         weight: {
             type: Number,
-           
         },
         reps: {
             type: Number,
-           
         },
         sets: {
             type: Number,
-           
         },
       }
 ]

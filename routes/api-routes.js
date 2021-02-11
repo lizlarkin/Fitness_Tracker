@@ -3,6 +3,24 @@ const router = require('express').Router();
 // Import Workout Model
 const Workout = require('../models/workout.js');
 
+// Get Workout Range 
+router.get('/api/workouts', (req, res) => {        
+  Workout.aggregate([
+    {
+      $addFields: {
+        totalDuration: {$sum: '$exercises.duration'}
+      }
+    }
+  ])
+    .then(dbWorkout => {
+      res.json(dbWorkout);
+      console.log(dbWorkout)
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
 // Get Last Workout Stats 
 router.get('/api/workouts', (req, res) => {        
   Workout.find({})
@@ -17,8 +35,9 @@ router.get('/api/workouts', (req, res) => {
 });
 
 // Post New Workout (Create Workout)
-router.post('/api/workouts', (req, res) => {
+router.post('/api/workouts/', (req, res) => {
   Workout.create(req.body)
+  // Workout.create({})
     .then(dbWorkout => {
       res.json(dbWorkout);
       console.log(dbWorkout)
@@ -43,7 +62,7 @@ router.post('/api/workouts', (req, res) => {
 
 // Update Workout 
 // router.put('/api/exercise/:id', (req, res) => {
-//     workout.findOneAndUpdate(
+//     Workout.findOneAndUpdate(
 //         {
 //             // filter
 //             _id: req.params.id,
@@ -52,8 +71,8 @@ router.post('/api/workouts', (req, res) => {
 //             // update
 //             $push: {
 //                 exercises: req.body.exercises,
-//                 new: true,
-//                 modified: Date.now(),
+//                 // new: true,
+//                 // modified: Date.now(),
 //               },
 //         }
 //      )

@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 // const morgan = require('morgan');
 
 //Establish Port
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3030;
 
 // Set up Express
 const app = express();
@@ -41,6 +41,6 @@ app.use(require("./routes/html-routes.js"));
 // app.use(routes);
 
 // Start Server
-app.listen(3000, () => {
+app.listen(3030, () => {
     console.log(`Fitness Tracker Link: http://localhost:${PORT}`);
   });

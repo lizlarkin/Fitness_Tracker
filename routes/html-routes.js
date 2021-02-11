@@ -1,8 +1,11 @@
 // Dependencies
 var path = require('path');
 
+// Express
+const router = require('express').Router();
+
 // Routes
-module.exports = (router) => {
+
   // // Route to Home
   // router.get('/index', (req, res) => {
   //   res.sendFile(path.join(__dirname, '../public/index.html'));
@@ -23,4 +26,4 @@ module.exports = (router) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));
   });
 
-};
+  module.exports = router;

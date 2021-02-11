@@ -2,6 +2,7 @@ const router = require('express').Router();
 
 // Import Workout Model
 const Workout = require('../models/workout.js');
+// const db = require('../models/');
 
 // Get Total Duration of Workouts 
 router.get('/api/workouts', (req, res) => {        
@@ -14,7 +15,7 @@ router.get('/api/workouts', (req, res) => {
   ])
     .then(dbWorkout => {
       res.json(dbWorkout);
-      console.log(dbWorkout)
+      // console.log(dbWorkout)
     })
     .catch(err => {
       res.status(400).json(err);
@@ -32,7 +33,7 @@ router.get('/api/workouts', (req, res) => {
   ])
     .then(dbWorkout => {
       res.json(dbWorkout);
-      console.log(dbWorkout)
+      // console.log(dbWorkout)
     })
     .catch(err => {
       res.status(400).json(err);
@@ -53,47 +54,34 @@ router.get('/api/workouts', (req, res) => {
 });
 
 // Post New Workout (Create Workout)
-router.post('/api/workouts/', (req, res) => {
+router.post('/api/workouts', (req, res) => {
   Workout.create(req.body)
   // Workout.create({})
     .then(dbWorkout => {
       res.json(dbWorkout);
-      console.log(dbWorkout)
+      console.log(`from post: ${dbWorkout}`)
     })
     .catch(err => {
       res.status(400).json(err);
     });
 });
 
-// app.post("/api/submit", (req, res) => {
-//   console.log(req.body);
-
-//   db.notes.insert(req.body, (error, data) => {
-//     if (error) {
-//       res.send(error);
-//     } else {
-//       res.send(data);
-//     }
-//   });
-// });
-
-
 // Update Workout 
-// router.put('/api/exercise/:id', (req, res) => {
-//     Workout.findOneAndUpdate(
-//         {
-//             // filter
-//             _id: req.params.id,
-//         },
-//         {
-//             // update
-//             $push: {
-//                 exercises: req.body.exercises,
-//                 // new: true,
-//                 // modified: Date.now(),
-//               },
-//         }
-//      )
-// });
+router.put('/api/workouts/:id', (req, res) => {
+    Workout.findOneAndUpdate(
+        {
+            // filter
+            _id: req.params.id,
+        },
+        {
+            // update
+            $push: {
+                exercises: req.body.exercises,
+                // new: true,
+                // modified: Date.now(),
+              },
+        }
+     )
+});
 
 module.exports = router;

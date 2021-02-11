@@ -4,29 +4,12 @@ const router = require('express').Router();
 const Workout = require('../models/workout.js');
 // const db = require('../models/');
 
-// Get Total Duration of Workouts 
+// Get Total Duration and Combined Weight of Workouts 
 router.get('/api/workouts', (req, res) => {        
   Workout.aggregate([
     {
       $addFields: {
-        totalDuration: {$sum: '$exercises.duration'}
-      }
-    }
-  ])
-    .then(dbWorkout => {
-      res.json(dbWorkout);
-      // console.log(dbWorkout)
-    })
-    .catch(err => {
-      res.status(400).json(err);
-    });
-});
-
-// Get Combined Weight of Workouts 
-router.get('/api/workouts', (req, res) => {        
-  Workout.aggregate([
-    {
-      $addFields: {
+        totalDuration: {$sum: '$exercises.duration'},
         totalWeight: {$sum: '$exercises.weight'}
       }
     }

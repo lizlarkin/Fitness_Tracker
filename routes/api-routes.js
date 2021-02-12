@@ -2,7 +2,6 @@ const router = require('express').Router();
 
 // Import Workout Model
 const Workout = require('../models/workout.js');
-// const db = require('../models/');
 
 // Get Total Duration and Combined Weight of Workouts 
 router.get('/api/workouts/range', (req, res) => { 
@@ -13,12 +12,16 @@ router.get('/api/workouts/range', (req, res) => {
         totalDuration: {$sum: '$exercises.duration'},
         totalWeight: {$sum: '$exercises.weight'},
       },
-    },{ $limit : 7 }
+    },
+    // Show data from last 7 days
+    { $limit : 7 }
+
+    // Sort in descending order
   ]).sort({day: -1})
 
     .then(dbWorkout => {
       res.json(dbWorkout);
-      // console.log(dbWorkout)
+      console.log(`from get: ${dbWorkout}`)
     })
     .catch(err => {
       res.status(400).json(err);
